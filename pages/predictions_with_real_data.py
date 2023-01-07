@@ -1,5 +1,4 @@
 import streamlit as st
-from random import gauss
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -17,157 +16,238 @@ from plotly.tools import mpl_to_plotly
 yf.pdr_override()
 np.random.seed(42)
 
-"#  Projet Garch"
 
 
+"# Application aux données réelles de la finance"
 
-"# Modèle GARCH(1,1)"
-st.write(r"""
-$$
-a_t = \varepsilon_t \sqrt
-{\omega + \alpha_1
-a_
-{t - 1} ^ 2 +
-\beta_1 \sigma_{t - 1} ^ 2}
-$$
+'''## Importation des données'''
+"Les données sont les données de yahoo finance"
 
-$$
-a_0, a_1 \sim \mathcal
-{N}(0, 1)
-$$
+def date():
+    i = 1
+    while i == 1:
+        col1, col2 = st.columns(2)
+        with col1:
+            start = st.date_input("Date de début", datetime.date(2019, 7, 6),key=1)
+        with col2:
+            end = st.date_input("Date de fin",datetime.date(2021, 7, 6),key=2)
+        if start <= end:
+            i = 0
 
-$$
-\sigma_0 = 1, \sigma_1 = 1
-$$
+    return [start.strftime("%Y-%m-%d"), end.strftime("%Y-%m-%d")]
 
-$$
-\varepsilon_t \sim \mathcal
-{N}(0, 1)
-$$
-""")
+def compagny():
+    ticker = st.selectbox(
+             'Lequel voulez vous selectionner ?', ('CAC40','Apple','Accor',
+             'Airbus SE',
+             'Air Liquide S.A',
+             'ArcelorMittal',
+             'Atos SE',
+             'Axa',
+             'BNP Paribas',
+             'Bouygues',
+             'Capgemini',
+             'Carrefour',
+             'Compagnie de Saint-Gobain S.A.',
+             'Credit Agricole S.A.',
+             'Danone',
+             'Dassault Systemes SA',
+             'Engie',
+             'EssilorLuxottica',
+             'Hermes International',
+             'Kering',
+             'Legrand SA',
+             "L'Oreal",
+             'Lvmh Moet Hennessy Vuitton SE',
+             'Michelin (CGDE)-B',
+             'Orange.',
+             'Pernod Ricard',
+             'Publicis Groupe SA',
+             'Renault S.A.',
+             'Safran SA',
+             'Sanofi',
+             'Schneider Electric SE',
+             'Societe Generale S.A.'))
+    return ticker
 
-"# Simumlated Garch data"
-# create dataset
+d = date()
+comp = compagny()
 
-" Paramètres du modéle"
-def parametre():
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        omega = st.number_input("Omega", min_value= 0.0, max_value=100.0, value=0.5)
-    with col2:
-        alpha_1 = st.number_input("alpha_1", min_value=0.0, max_value=100.0, value=0.5)
-    with col3:
-        beta_1 = st.number_input("beta_A", min_value=0.0, max_value=100.0, value=0.5)
-    return omega, alpha_1,beta_1
+def tickers(a):
+    d = ["^FCHI","AAPL",'AC.PA',
+         'AIR.PA',
+         'AI.PA',
+         'MT.PA',
+         'ATO.PA',
+         'CS.PA',
+         'BNP.PA',
+         'EN.PA',
+         'CAP.PA',
+         'CA.PA',
+         'SGO.PA',
+         'ACA.PA',
+         'BN.PA',
+         'DSY.PA',
+         'ENGI.PA',
+         'EL.PA',
+         'RMS.PA',
+         'KER.PA',
+         'LR.PA',
+         'OR.PA',
+         'MC.PA',
+         'ML.PA',
+         'ORA.PA',
+         'RI.PA',
+         'PUB.PA',
+         'RNO.PA',
+         'SAF.PA',
+         'SAN.PA',
+         'SU.PA',
+         'GLE.PA']
+    comp = ["CAC40",'Apple','Accor',
+             'Airbus SE',
+             'Air Liquide S.A',
+             'ArcelorMittal',
+             'Atos SE',
+             'Axa',
+             'BNP Paribas',
+             'Bouygues',
+             'Capgemini',
+             'Carrefour',
+             'Compagnie de Saint-Gobain S.A.',
+             'Credit Agricole S.A.',
+             'Danone',
+             'Dassault Systemes SA',
+             'Engie',
+             'EssilorLuxottica',
+             'Hermes International',
+             'Kering',
+             'Legrand SA',
+             "L'Oreal",
+             'Lvmh Moet Hennessy Vuitton SE',
+             'Michelin (CGDE)-B',
+             'Orange.',
+             'Pernod Ricard',
+             'Publicis Groupe SA',
+             'Renault S.A.',
+             'Safran SA',
+             'Sanofi',
+             'Schneider Electric SE',
+             'Societe Generale S.A.']
+    ind = comp.index(a)
+    return d[ind]
 
-omega, alpha_1, beta_1 = parametre()
+Ticker = tickers(comp)
 
-n = 1000
+"le ticher de la compagnie selectionner est : ", Ticker
 @st.experimental_memo
-def serie(n):
-    series = [gauss(0, 1), gauss(0, 1)]
-    vols = [1, 1]
-    for _ in range(n):
-        new_vol = np.sqrt(
-            omega +
-            alpha_1 * series[-1] ** 2 +
-            beta_1 * vols[-1] ** 2
-        )
-        new_val = gauss(0, 1) * new_vol
+def data(Ticker , d ):
+    data = pdr.get_data_yahoo("{}".format(Ticker), start=d[0], end=d[1])
+    return data
 
-        vols.append(new_vol)
-        series.append(new_val)
-    return vols, series
-
-vols, series = serie(n)
-
-"a0 = ", series[0] ,"$ \sim \mathcal{N}(0, 1)$"
-"a1 = ",series[1] ,"$\sim \mathcal{N}(0, 1)$"
+data = data(Ticker = Ticker, d = d)
+"La taille de nos données est : ", data.shape
+data
+data.reset_index(inplace = True)
 
 
-fig, ax = plt.subplots()
-ax.plot(series)
-plt.title("Simulation des données d'un modèle GARCH(1,1)", fontsize=20)
-fig2 = mpl_to_plotly(fig)
-fig2
+'''### Graphe de l'actif financier
+'''
+
+fig = go.Figure(data=[go.Candlestick(x=data["Date"],
+                open=data["Open"],
+                high=data['High'],
+                low=data['Low'],
+                close=data['Close'])])
+
+
+fig
 plt.show()
 
-"## Données et volatilité"
-
-fig, ax = plt.subplots()
-ax.plot(series)
-ax.plot(vols, color='red')
-plt.title('Données et volatilité', fontsize=20)
-fig2 = mpl_to_plotly(fig)
-fig2
-plt.show()
+data.set_index("Date", inplace=True)
 
 
-"##  PACF"
-plot_pacf(np.array(series)**2)
+
+def g():
+    option = st.selectbox(
+        'Lequel voulez vous utiliser pour la prédiction ?',
+        ('Adj Close','Open','Close','High','Low','Volume'))
+    return option
+
+g = g()
+
+data = data.filter([g])
+
+f"###  PACF des données {comp}: {g}"
+plot_pacf(np.array(data.values)**2)
 plt.show()
 st.pyplot(plt)
 
+
 "##  Calibrage et apprentissage du modèle"
-def p_q_choices():
+def pv_qv_choices():
     col1, col2 = st.columns(2)
     with col1:
-        p = st.number_input("Paramètre p", min_value=0, max_value=30, value=5)
+        p = st.number_input("Paramètre p", min_value=0, max_value=30, value=5, key = "pv")
     with col2:
-        q = st.number_input("Paramètre q", min_value=0, max_value=30, value=5)
+        q = st.number_input("Paramètre q", min_value=0, max_value=30, value=5, key = "qv")
 
     return p, q
 
-test_size = int(n * 0.1)
-train, test = series[:-test_size], series[-test_size:]
-p, q = p_q_choices()
-model = arch_model(train, p=p, q=q)
+
+series = data.values
+X_train, X_test = train_test_split(data, test_size = 0.2, shuffle= False)
+
+series = data.values
+#train, test = series[:-test_size], series[-test_size:]
+train, test = X_train.values, X_test.values
+p, q = pv_qv_choices()
+
+returns =  np.log(data).diff().dropna()
+
+model = arch_model(returns, p=p, q=q)
 model_fit = model.fit()
-# st.write("**Model Fit**")
-# st.write(model_fit)
+#
 st.write("**Summary**")
 st.write(model_fit.summary())
 
+'## Le log returns '
 
-"## Prédictions"
-predictions = model_fit.forecast(horizon=test_size)
-plt.figure(figsize=(10,4))
-true, = plt.plot(vols[-test_size:])
-preds, = plt.plot(np.sqrt(predictions.variance.values[-1, :]))
-plt.title('Prédiction de la volatilité', fontsize=20)
-plt.legend(['True Volatility', 'Predicted Volatility'], fontsize=16)
-st.pyplot(plt)
+fig, ax= plt.subplots()
+ax.plot(returns, color="red")
+fig2 = mpl_to_plotly(fig)
+fig2
+plt.show()
 
-predictions_long_term = model_fit.forecast(horizon=1000)
-plt.figure(figsize=(10,4))
-true, = plt.plot(vols[-test_size:])
-preds, = plt.plot(np.sqrt(predictions_long_term.variance.values[-1, :]))
-plt.title('Long Term Volatility Prediction', fontsize=20)
-plt.legend(['True Volatility', 'Predicted Volatility'], fontsize=16)
-st.pyplot(plt)
+##
+
 
 "## Prédictions roulantes"
 
-####
+def horizon():
+    ho = st.number_input("L'horizon de la prédiction : ", min_value=1, max_value= 100, value= 1, key ='ho')
+    return ho
 
+horizon = horizon()
+
+test_size = int(data.shape[0] * 0.2)
 rolling_predictions = []
-#Rolling = []
 for i in range(test_size):
-    train = series[:-(test_size-i)]
-    model = arch_model(train, p=p, q=q)
+    train = returns[:-(test_size-i)]
+    model = arch_model(train, p=p, q=q, vol = "Garch", dist="Normal")
     model_fit = model.fit(disp='off')
-    pred = model_fit.forecast(horizon=1)
-    print(pred)
-    #Rolling.append(pred.variance.values)
+    pred = model_fit.forecast(horizon=horizon)
     rolling_predictions.append(np.sqrt(pred.variance.values[-1,:][0]))
 
 
-#Rolling
-plt.figure(figsize=(10,4))
-true, = plt.plot(vols[-test_size:])
-preds, = plt.plot(rolling_predictions)
-plt.title('Volatility Prediction - Rolling Forecast', fontsize=20)
-plt.legend(['True Volatility', 'Predicted Volatility'], fontsize=16)
-st.pyplot(plt)
+rolling  = pd.DataFrame(rolling_predictions, columns= ["pred"], index= returns[-test_size:].index)
+rolling["test"] = returns[-test_size:]
 
-#####
+fig, ax = plt.subplots()
+fig = px.line(rolling,x = rolling.index, y = ["pred","test"],
+              title = "La variation des differentes sorties"
+              )
+
+
+fig
+plt.show()
