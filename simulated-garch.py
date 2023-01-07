@@ -134,7 +134,7 @@ plt.figure(figsize=(10,4))
 true, = plt.plot(vols[-test_size:])
 preds, = plt.plot(np.sqrt(predictions.variance.values[-1, :]))
 plt.title('Prédiction de la volatilité', fontsize=20)
-plt.legend(['True Volatility', 'Predicted Volatility'], fontsize=16)
+plt.legend(['Vraie volatilité', 'Volatilité prédite'], fontsize=16)
 st.pyplot(plt)
 
 predictions_long_term = model_fit.forecast(horizon=1000)
@@ -142,7 +142,7 @@ plt.figure(figsize=(10,4))
 true, = plt.plot(vols[-test_size:])
 preds, = plt.plot(np.sqrt(predictions_long_term.variance.values[-1, :]))
 plt.title('Long Term Volatility Prediction', fontsize=20)
-plt.legend(['True Volatility', 'Predicted Volatility'], fontsize=16)
+plt.legend(['Vraie volatilité', 'Volatilité prédite'], fontsize=16)
 st.pyplot(plt)
 
 "## Prédictions roulantes"
@@ -165,8 +165,8 @@ for i in range(test_size):
 plt.figure(figsize=(10,4))
 true, = plt.plot(vols[-test_size:])
 preds, = plt.plot(rolling_predictions)
-plt.title('Volatility Prediction - Rolling Forecast', fontsize=20)
-plt.legend(['True Volatility', 'Predicted Volatility'], fontsize=16)
+plt.title('Rolling Forecast', fontsize=20)
+plt.legend(['Vraie volatilité', 'Volatilité prédite'], fontsize=16)
 st.pyplot(plt)
 
 #####
