@@ -80,8 +80,8 @@ def serie(n):
 
 vols, series = serie(n)
 
-"a0 = ", series[0] ,"$ \sim \mathcal{N}(0, 1)$"
-"a1 = ",series[1] ,"$\sim \mathcal{N}(0, 1)$"
+"$a_0$ = ", series[0] ,"$ \sim \mathcal{N}(0, 1)$"
+"$a_1$ = ",series[1] ,"$\sim \mathcal{N}(0, 1)$"
 
 
 fig, ax = plt.subplots()
