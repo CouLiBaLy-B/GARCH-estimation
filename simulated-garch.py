@@ -20,10 +20,6 @@ np.random.seed(42)
 "#  Projet Garch"
 
 
-image = Image.open('unsupervised.jpeg')
-st.image(image)
-
-
 "# Modèle GARCH(1,1)"
 st.write(r"""
 $$
