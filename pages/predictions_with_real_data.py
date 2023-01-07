@@ -20,6 +20,7 @@ np.random.seed(42)
 "#  Projet Garch"
 
 
+
 "# Modèle GARCH(1,1)"
 st.write(r"""
 $$
@@ -146,15 +147,6 @@ plt.legend(['True Volatility', 'Predicted Volatility'], fontsize=16)
 st.pyplot(plt)
 
 "## Prédictions roulantes"
-####
-""" Essaie"""
-
-train = series[:-(test_size-1)]
-model = arch_model(train, p=p, q=q)
-model_fit = model.fit(disp='off')
-pred = model_fit.forecast(horizon=1)
-st.write(pred.variance)
-pred
 
 ####
 
