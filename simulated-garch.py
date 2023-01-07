@@ -54,9 +54,9 @@ def parametre():
     with col1:
         omega = st.number_input("Omega", min_value= 0.0, max_value=100.0, value=0.5)
     with col2:
-        alpha_1 = st.number_input("alpha_1", min_value=0.0, max_value=100.0, value=0.5)
+        alpha_1 = st.number_input("alpha 1", min_value=0.0, max_value=100.0, value=0.5)
     with col3:
-        beta_1 = st.number_input("beta_1", min_value=0.0, max_value=100.0, value=0.5)
+        beta_1 = st.number_input("beta 1", min_value=0.0, max_value=100.0, value=0.5)
     return omega, alpha_1,beta_1
 
 omega, alpha_1, beta_1 = parametre()
