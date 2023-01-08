@@ -18,7 +18,11 @@ yf.pdr_override()
 np.random.seed(42)
 
 "#  Projet Garch"
+"### Auteurs:"
+"## Ahmed OSMAN"
+"## Bourahima COULIBALY"
 
+"### Université Paris Saclay"
 
 "# Modèle GARCH(1,1)"
 st.write(r"""
