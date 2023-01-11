@@ -20,7 +20,7 @@ np.random.seed(42)
 "#  Projet Garch"
 "### Auteurs:"
 "## Ahmed OSMAN"
-"## Bourahima COULIBALY"
+"## Ibrahim COULIBALY"
 
 "### Université Paris Saclay"
 
