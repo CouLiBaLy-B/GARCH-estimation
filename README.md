@@ -1,4 +1,4 @@
 # GARCH-estimation
 financial econometry project
 
-pour accéder à l'application : "https://coulibaly-b-garch-estimation-simulated-garch-g506ol.streamlit.app/"
+pour accéder à l'application : "https://garch-estimation-simulated-garch.streamlit.app/"
