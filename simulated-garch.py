@@ -19,8 +19,8 @@ np.random.seed(42)
 
 "#  Projet Garch"
 "#### Auteurs:"
-"### Ahmed OSMAN"
-"### Ibrahim COULIBALY"
+st.sidebar.write("Ahmed OSMAN")
+st.sidebar.write("Ibrahim COULIBALY")
 
 "#### Université Paris Saclay"
 
