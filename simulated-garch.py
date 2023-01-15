@@ -106,24 +106,12 @@ fig2
 plt.show()
 
 
-"##  PACF"
-plot_pacf(np.array(series)**2)
-plt.show()
-st.pyplot(plt)
 
-"##  Calibrage et apprentissage du modèle"
-def p_q_choices():
-    col1, col2 = st.columns(2)
-    with col1:
-        p = st.number_input("Paramètre p", min_value=0, max_value=30, value=5)
-    with col2:
-        q = st.number_input("Paramètre q", min_value=0, max_value=30, value=5)
-
-    return p, q
+"### Calibrage et apprentissage du modèle - GARCH(1, 1)"
 
 test_size = int(n * 0.1)
 train, test = series[:-test_size], series[-test_size:]
-p, q = p_q_choices()
+p, q = 1, 1
 model = arch_model(train, p=p, q=q)
 model_fit = model.fit()
 # st.write("**Model Fit**")
