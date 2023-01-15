@@ -14,6 +14,8 @@ import statsmodels.api as sm
 from statsmodels.stats.stattools import jarque_bera
 from sklearn.model_selection import train_test_split
 from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
+from arch import arch_model
+from arch.__future__ import reindexing
 import plotly.express as px
 import yfinance as yf
 import plotly.graph_objects as go
