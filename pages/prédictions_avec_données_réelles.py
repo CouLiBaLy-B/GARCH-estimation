@@ -184,7 +184,7 @@ data, dfAgo = data.filter([g]), dfAgo.filter([g])
 f"## Données {comp}: {g}"
 
 
-ata = 100* np.log(data/data.shift(1)).dropna(axis = 0)
+Data = 100* np.log(data/data.shift(1)).dropna(axis = 0)
 series = Data.values
 
 "Log returns"
