@@ -20,9 +20,8 @@ np.random.seed(42)
 
 "#  Projet Garch"
 st.sidebar.write("Ahmed OSMAN")
-st.sidebar.write("Ibrahim COULIBALY")
-
-"#### Université Paris Saclay"
+st.sidebar.write("Bourahima COULIBALY")
+st.sidebar.write("Université Paris Saclay")
 
 image = Image.open('finance.jpeg')
 st.image(image)
