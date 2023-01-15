@@ -26,7 +26,7 @@ st.sidebar.write("Ibrahim COULIBALY")
 "#### Université Paris Saclay"
 
 image = Image.open('finance.jpeg')
-st.image(image
+st.image(image)
 """# Introduction
 Le modèle GARCH (Generalized Autoregressive Conditional Heteroskedasticity) est un modèle statistique utilisé pour décrire la volatilité d'un actif financier. 
 Il permet de prédire la volatilité future en utilisant des données historiques sur la volatilité passée de l'actif. 
