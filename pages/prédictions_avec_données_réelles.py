@@ -401,14 +401,14 @@ if st.checkbox("Afficher le summary", value = False):
 "Vu les paramètres estimés avec arch et notre estimation, nous pouvons dire que que le notre modèle estime bien les paramètres."
 
 "### Prédictions roulantes (pas nécessaire)"
-horizon = 1
+
 test_size = int(data.shape[0] * 0.2)
 rolling_predictions = []
 for i in range(test_size):
     train = returns[:-(test_size-i)]
     model = arch_model(train, p=p, q=q, vol = "Garch", dist="Normal")
     model_fit = model.fit(disp='off')
-    pred = model_fit.forecast(horizon=horizon)
+    pred = model_fit.forecast(horizon=1)
     rolling_predictions.append(np.sqrt(pred.variance.values[-1,:][0]))
 
 
