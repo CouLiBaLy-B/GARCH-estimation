@@ -23,6 +23,7 @@ np.random.seed(42)
 '''## Importation des données'''
 "Les données sont les données de yahoo finance"
 
+
 def date():
     i = 1
     while i == 1:
@@ -33,8 +34,8 @@ def date():
             end = st.date_input("Date de fin",datetime.date(2021, 7, 6),key=2)
         if start <= end:
             i = 0
-
-    return [start.strftime("%Y-%m-%d"), end.strftime("%Y-%m-%d")]
+        SixAgo = start + relativedelta(months=-6)
+    return [SixAgo.strftime("%Y-%m-%d"), start.strftime("%Y-%m-%d"), end.strftime("%Y-%m-%d")]
 
 def compagny():
     ticker = st.selectbox(
@@ -142,10 +143,12 @@ Ticker = tickers(comp)
 "le ticher de la compagnie selectionner est : ", Ticker
 @st.experimental_memo
 def data(Ticker , d ):
-    data = pdr.get_data_yahoo("{}".format(Ticker), start=d[0], end=d[1])
-    return data
+    data = pdr.get_data_yahoo("{}".format(Ticker), start=d[1], end=d[2])
+    dfAgo = pdr.get_data_yahoo("{}".format(Ticker), start=d[0], end=d[1])
+    return data, dfAgo
 
-data = data(Ticker = Ticker, d = d)
+
+data, dfAgo = data.filter([g]), dfAgo.filter([g])
 "La taille de nos données est : ", data.shape
 data
 data.reset_index(inplace = True)
