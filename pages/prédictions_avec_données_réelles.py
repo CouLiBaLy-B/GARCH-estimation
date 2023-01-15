@@ -149,7 +149,6 @@ def data(Ticker , d ):
     return data, dfAgo
 
 data, dfAgo = data(Ticker = Ticker, d = d)
-data, dfAgo = data.filter([g]), dfAgo.filter([g])
 "La taille de nos données est : ", data.shape
 data
 data.reset_index(inplace = True)
@@ -180,8 +179,7 @@ def g():
     return option
 
 g = g()
-
-data = data.filter([g])
+data, dfAgo = data.filter([g]), dfAgo.filter([g])
 
 f"## Données {comp}: {g}"
 
