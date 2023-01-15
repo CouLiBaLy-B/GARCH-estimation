@@ -168,6 +168,7 @@ data.set_index("Date", inplace=True)
 
 
 
+
 def g():
     option = st.selectbox(
         'Lequel voulez vous utiliser pour la prédiction ?',
@@ -178,22 +179,9 @@ g = g()
 
 data = data.filter([g])
 
-f"###  PACF des données {comp}: {g}"
-plot_pacf(np.array(data.values)**2)
-plt.show()
-st.pyplot(plt)
+f"## Données {comp}: {g}"
 
-
-"##  Calibrage et apprentissage du modèle"
-def pv_qv_choices():
-    col1, col2 = st.columns(2)
-    with col1:
-        p = st.number_input("Paramètre p", min_value=0, max_value=30, value=5, key = "pv")
-    with col2:
-        q = st.number_input("Paramètre q", min_value=0, max_value=30, value=5, key = "qv")
-
-    return p, q
-
+"###  Calibrage et apprentissage du modèle - GARCH(1, 1)"
 
 series = data.values
 X_train, X_test = train_test_split(data, test_size = 0.2, shuffle= False)
@@ -201,7 +189,7 @@ X_train, X_test = train_test_split(data, test_size = 0.2, shuffle= False)
 series = data.values
 #train, test = series[:-test_size], series[-test_size:]
 train, test = X_train.values, X_test.values
-p, q = pv_qv_choices()
+p, q = 1, 1
 
 returns =  np.log(data).diff().dropna()
 
