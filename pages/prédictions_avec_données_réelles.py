@@ -181,6 +181,194 @@ data = data.filter([g])
 
 f"## Données {comp}: {g}"
 
+
+ata = 100* np.log(data/data.shift(1)).dropna(axis = 0)
+series = Data.values
+
+"Log returns"
+fig, ax= plt.subplots()
+ax.plot(Data, color="red")
+fig2 = mpl_to_plotly(fig)
+fig2
+plt.show()
+r"""
+## Calibrer un modèle GARCH(1, 1) avec EMV
+
+Pour ce faire le calibrage de notre modèle dont les paramètres vérifies :
+$$
+\left(\hat{\omega}_n, \hat{\alpha}_n, \hat{\beta}_n\right)=\operatorname{argmax}_{(\omega, \alpha, \beta)} L_n(\omega, \alpha, \beta ; \text { data })
+$$
+Nous avons besoin de la fonction log-vraisemblance définie par : 
+
+$$
+\mathcal{L}(\theta) = \sum_{t=1}^T - \ln \sqrt{2\pi} - \frac{s_t^2}{2\sigma_t^2} - \frac{1}{2}\ln(\sigma_t^2)
+$$
+
+Pour évaluer cette fonction, nous avons besoin de $s_t$ et ${\sigma}_t$ pour $1\le t \le T$. Nous avons 
+$ s_t $, mais nous devons calculer ${\sigma}_t$. Pour faire cela, nous devons trouver une valeur pour 
+${\sigma}_1$. 
+
+Notre hypothèse sera $\sigma_1^2 = \hat E [s_t^2]$ la moyenne des 6 dernier mois avant. Une fois que nous avons notre condition initiale, 
+nous calculons le reste des $\sigma$ en utilisant l'équation
+
+
+$$\sigma_t^2 = \omega + \alpha s_{t-1}^2 + \beta\sigma_{t-1}^2$$
+"""
+#dfAgo = np.log(dfAgo/dfAgo.shift(1)).dropna(axis = 0)
+sigma21 = np.sqrt(np.mean( data.values ** 2))
+
+# calcul de sigma 2
+def compute_squared_sigmas(X, initial_sigma, theta):
+    a0 = theta[0]
+    a1 = theta[1]
+    b1 = theta[2]
+    T = len(X)
+    sigma2 = np.ndarray(T)
+    sigma2[0] = initial_sigma ** 2
+    for t in range(1, T):
+        sigma2[t] = a0 + a1 * X[t - 1] ** 2 + b1 * sigma2[t - 1]
+    return sigma2
+
+
+#"Regardons les sigmas que nous venons de simuler."
+
+sigma2 = np.sqrt(compute_squared_sigmas(series, sigma21,[.5,0.5, 0.5]))
+#sigma2
+
+r"""
+Maintenant que nous pouvons calculer les $\sigma_t$, nous allons définir la fonction de vraisemblance. 
+Cette fonction prendra en entrée nos observations $s$ et $\theta$ et retournera $-\mathcal {L}(\theta)$.
+Notez que nous re-calculons constamment les $\sigma_t$ dans cette fonction.
+"""
+
+def negative_log_likelihood(X, theta):
+    T = len(X)
+    # Estimate initial sigma squared
+    initial_sigma = np.sqrt(np.mean(X ** 2))
+    # Generate the squared sigma values
+    sigma2 = compute_squared_sigmas(X, initial_sigma, theta)
+    # Now actually compute
+    return -sum(
+        [-np.log(np.sqrt(2.0 * np.pi)) -
+         (X[t] ** 2) / (2.0 * sigma2[t]) -
+         0.5 * np.log(sigma2[t])
+         for t in range(T)]
+    )
+
+r"""
+Maintenant on optimise numériquement 
+$$\hat\theta = \arg \max_{(\omega, \alpha, \beta)}\mathcal{L}(\theta) = \arg \min_{(\omega, \alpha, \beta)}-\mathcal{L}(\theta)$$
+
+Sous les contraintes  suivantes : $$ \omega \geq 0, \beta < 1, \alpha + \beta < 1 $$ (c'est contraintes permets d'assurées le caractère stationnaire du modèle)
+"""
+
+# Make our objective function by plugging X into our log likelihood function
+objective = partial(negative_log_likelihood, series)
+
+# Define the constraints for our minimizer
+def constraint1(theta):
+    return 1 - (theta[1] + theta[2])
+
+def constraint2(theta):
+    return theta[0]
+
+def constraint3(theta):
+    return 1 - theta[2]
+
+def constraint4(theta):
+    return theta[1]
+
+def constraint5(theta):
+    return theta[2]
+
+
+cons = ({'type': 'ineq', 'fun': constraint1},
+        {'type': 'ineq', 'fun': constraint2},
+        {'type': 'ineq', 'fun': constraint3},
+        {'type': 'ineq', 'fun': constraint4},
+        {'type': 'ineq', 'fun': constraint5}
+        )
+
+# contrainte >=0
+
+# Actually do the minimization
+result = scipy.optimize.minimize(objective, (1.0, .1, 0.1),
+                        method='SLSQP',
+                        constraints = cons)
+
+"#### Les estimateurs du maximum de vraisemblance"
+theta_mle = result.x
+
+estimateurMLE = pd.DataFrame(theta_mle, index= ["omega", "alpha", "beta"])
+estimateurMLE
+
+
+"""
+## Prédire le future
+Maintenant que nous avons calibré le modèle à nos observations, nous aimerions pouvoir prédire à quoi ressemblera 
+la volatilité future. Pour ce faire, nous pouvons simplement simuler plus de valeurs en utilisant la définition du modèle et les paramètres estimés par MV.
+"""
+
+## Fonction de simulation GARCH
+
+def GARCH(T, omega, alpha, beta, sigma1):
+    X = np.ndarray(T)
+    sigma = np.ndarray(T)
+    sigma[0] = sigma1
+    for t in range(1,T):
+        X[t - 1] = sigma[t - 1] * np.random.normal(0, 1)
+        sigma[t] = np.sqrt(omega + alpha * sigma[t - 1] ** 2 + beta * X[t - 1] ** 2)
+    X[T-1] = sigma[T-1] * np.random.normal(0,1)
+    return X, sigma
+##
+
+sigma_2 = compute_squared_sigmas(series, np.sqrt(np.mean(series ** 2)), [theta_mle[0],theta_mle[1],theta_mle[2]] )
+col1, col2, col3, col4 = st.columns(4)
+with col1 :
+    initial_sigma = sigma_2[-1]
+    " Sigma initial"
+    initial_sigma
+with col2 :
+    "Omega"
+    omega_estimate = theta_mle[0]
+    omega_estimate
+with col3 :
+    "Alpha "
+    alpha_estimate = theta_mle[1]
+    alpha_estimate
+with col4 :
+    "beta "
+    beta_estimate = theta_mle[2]
+    beta_estimate
+
+def horizon():
+    hor = st.number_input("Horizon de prédiction " , min_value= 1, max_value= 1000, value=100)
+    return hor
+
+horizon  = horizon()
+horizon = int(horizon)
+X_forecast, sigma_forecast = GARCH(horizon, omega_estimate, alpha_estimate, beta_estimate, initial_sigma)
+#X_forecast
+
+fig, ax = plt.subplots()
+ax.plot(range(-100, 0), series[-100:], 'b-')
+ax.plot(range(-100, 0), sigma_2[-100:], 'r-')
+ax.plot(range(0, horizon), X_forecast, 'b--')
+ax.plot(range(0, horizon), sigma_forecast, 'r--')
+plt.xlabel('Time')
+plt.legend(['Log-return', 'sigma', "pred log-return", "pred-sigma"])
+fig2 = mpl_to_plotly(fig)
+fig2
+plt.show()
+
+
+
+
+
+
+
+
+
 "###  Calibrage et apprentissage du modèle - GARCH(1, 1)"
 
 series = data.values
