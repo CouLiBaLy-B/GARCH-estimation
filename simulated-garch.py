@@ -14,16 +14,19 @@ import yfinance as yf
 import plotly.graph_objects as go
 from PIL import Image
 from plotly.tools import mpl_to_plotly
+from PIL import Image
 yf.pdr_override()
 np.random.seed(42)
 
 "#  Projet Garch"
-
+"#### Auteurs:"
 st.sidebar.write("Ahmed OSMAN")
 st.sidebar.write("Ibrahim COULIBALY")
 
-"#### Université Paris-Saclay"
+"#### Université Paris Saclay"
 
+image = Image.open('finance.jpeg')
+st.image(image
 """# Introduction
 Le modèle GARCH (Generalized Autoregressive Conditional Heteroskedasticity) est un modèle statistique utilisé pour décrire la volatilité d'un actif financier. 
 Il permet de prédire la volatilité future en utilisant des données historiques sur la volatilité passée de l'actif. 
