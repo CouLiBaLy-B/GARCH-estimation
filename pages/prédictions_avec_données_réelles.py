@@ -363,10 +363,10 @@ X_forecast, sigma_forecast = GARCH(horizon, omega_estimate, alpha_estimate, beta
 #X_forecast
 
 fig, ax = plt.subplots()
-ax.plot(range(-100, 0), series[-100:], 'b-')
-ax.plot(range(-100, 0), sigma_2[-100:], 'r-')
-ax.plot(range(0, horizon), X_forecast, 'b--')
-ax.plot(range(0, horizon), sigma_forecast, 'r--')
+ax.plot(Data.index[-100:], series[-100:], 'b-')
+ax.plot(Data.index[-100:], sigma_2[-100:], 'r-')
+ax.plot([Data.index[-1] + relativedelta(days=i) for i in range(0, horizon)], X_forecast, 'b--')
+ax.plot([Data.index[-1] + relativedelta(days=i) for i in range(0, horizon)], sigma_forecast, 'r--')
 plt.xlabel('Time')
 plt.legend(['Log-return', 'sigma', "pred log-return", "pred-sigma"])
 fig2 = mpl_to_plotly(fig)
@@ -380,7 +380,7 @@ plt.show()
 
 
 
-"### GARCH(1, 1) - avec la library arch"
+"### GARCH(1, 1) - avec la librarie arch"
 
 series = data.values
 X_train, X_test = train_test_split(data, test_size = 0.2, shuffle= False)
@@ -395,10 +395,9 @@ returns =  100*np.log(data).diff().dropna()
 model = arch_model(returns, p=p, q=q)
 model_fit = model.fit()
 #
-st.write("**Summary**")
-st.write(model_fit.summary())
-
-
+if st.checkbox("Afficher le summary", value = False):
+       st.write("**Summary**")
+       st.write(model_fit.summary())
 
 "## Prédictions roulantes"
 
@@ -425,7 +424,7 @@ fig, ax = plt.subplots()
 fig = px.line(rolling,x = rolling.index, y = ["pred","test"],
               title = "La variation des differentes sorties"
               )
-
-
 fig
 plt.show()
+
+
