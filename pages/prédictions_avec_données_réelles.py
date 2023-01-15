@@ -148,7 +148,7 @@ def data(Ticker , d ):
     dfAgo = pdr.get_data_yahoo("{}".format(Ticker), start=d[0], end=d[1])
     return data, dfAgo
 
-
+data, dfAgo = data(Ticker = Ticker, d = d)
 data, dfAgo = data.filter([g]), dfAgo.filter([g])
 "La taille de nos données est : ", data.shape
 data
