@@ -390,7 +390,7 @@ series = data.values
 train, test = X_train.values, X_test.values
 p, q = 1, 1
 
-returns =  np.log(data).diff().dropna()
+returns =  100*np.log(data).diff().dropna()
 
 model = arch_model(returns, p=p, q=q)
 model_fit = model.fit()
