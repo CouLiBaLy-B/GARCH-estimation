@@ -1,6 +1,6 @@
 import streamlit as st
 
-"""## Estimation du modèle GARCH & prévision de la volatilité
+r"""## Estimation du modèle GARCH & prévision de la volatilité
 
 La première étape consiste à estimer le modèle GARCH (1,1) suivant, en utilisant la méthode de la (pseudo) log-vraisemblance,
 
