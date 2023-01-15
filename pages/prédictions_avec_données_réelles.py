@@ -378,7 +378,7 @@ plt.show()
 
 
 
-
+"Pour s'assuré que notre modèle fonction bien, nous allons estimé les paramètres avec la libraire arch de python avant de continuer notre étude"
 
 "### GARCH(1, 1) - avec la librarie arch"
 
@@ -398,15 +398,10 @@ model_fit = model.fit()
 if st.checkbox("Afficher le summary", value = False):
        st.write("**Summary**")
        st.write(model_fit.summary())
+"Vu les paramètres estimés avec arch et notre estimation, nous pouvons dire que que le notre modèle estime bien les paramètres."
 
-"## Prédictions roulantes"
-
-def horizon():
-    ho = st.number_input("L'horizon de la prédiction : ", min_value=1, max_value= 100, value= 1, key ='ho')
-    return ho
-
-horizon = horizon()
-
+"### Prédictions roulantes (pas nécessaire)"
+horizon = 1
 test_size = int(data.shape[0] * 0.2)
 rolling_predictions = []
 for i in range(test_size):
@@ -426,5 +421,69 @@ fig = px.line(rolling,x = rolling.index, y = ["pred","test"],
               )
 fig
 plt.show()
+
+
+
+"""# Comparaison de la volatilité avec  pour une autre composante du CAC40"""
+
+@st.experimental_memo
+def Data(Ticker , d ):
+    data = pdr.get_data_yahoo("{}".format(Ticker), start=d[1], end=d[2])
+    return data
+
+comp = compagny()
+Ticke = tickers(comp)
+dataC = Data(Ticker = Ticke, d = d)
+dataC = dataC.filter([g])
+DataC = 100* np.log(dataC/dataC.shift(1)).dropna(axis = 0)
+seriesC = DataC.values
+objective = partial(negative_log_likelihood, seriesC)
+
+resultC = scipy.optimize.minimize(objective, (1.0, .1, 0.1),
+                        method='SLSQP',
+                        constraints = cons)
+
+"#### Les estimateurs du maximum de vraisemblance"
+theta_mleC = resultC.x
+
+sigma_2C = compute_squared_sigmas(seriesC, np.sqrt(np.mean(seriesC ** 2)), theta_mleC )
+col1, col2, col3, col4 = st.columns(4)
+with col1 :
+    initial_sigmaC = sigma_2C[-1]
+    " Sigma initial"
+    initial_sigmaC
+with col2 :
+    "Omega"
+    omega_estimateC = theta_mleC[0]
+    omega_estimateC
+with col3 :
+    "Alpha "
+    alpha_estimateC = theta_mleC[1]
+    alpha_estimateC
+with col4 :
+    "beta "
+    beta_estimateC = theta_mleC[2]
+    beta_estimateC
+
+# Prediction et representation graphique
+
+X_forecastC, sigma_forecastC = GARCH(horizon, omega_estimateC, alpha_estimateC, beta_estimateC, initial_sigmaC)
+
+
+fig, ax = plt.subplots()
+ax.plot(data.index[-100:], series[-100:], 'b-')
+ax.plot(data.index[-100:], sigma_2[-100:], 'r-')
+ax.plot([data.index[-1] + relativedelta(days=i) for i in range(0, horizon)], X_forecast, 'b--')
+ax.plot([data.index[-1] + relativedelta(days=i) for i in range(0, horizon)], sigma_forecast, 'r--')
+ax.plot(data.index[-100:], seriesC[-100:], 'b-')
+ax.plot(data.index[-100:], sigma_2C[-100:], 'r-')
+ax.plot([data.index[-1] + relativedelta(days=i) for i in range(0, horizon)], X_forecastC, 'g--')
+ax.plot([data.index[-1] + relativedelta(days=i) for i in range(0, horizon)], sigma_forecastC, 'y--')
+plt.xlabel('Time')
+plt.legend([f'Log-return {Ticker} ', f'sigma {Ticker}', f"pred log-return {Ticker}", f"pred-sigma {Ticker}", f'Log-return {Ticke}', f'sigma {Ticke}', f"pred log-return {Ticke}", f"pred-sigma {Ticke}"])
+fig2 = mpl_to_plotly(fig)
+fig2
+plt.show()
+
 
 
