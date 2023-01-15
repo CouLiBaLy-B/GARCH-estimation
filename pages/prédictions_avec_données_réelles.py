@@ -5,9 +5,14 @@ import pandas as pd
 from pandas_datareader import data as pdr
 import datetime
 from dateutil.relativedelta import relativedelta
-from arch import arch_model
+from functools import partial
+import math
+import numpy as np
+import scipy
+from scipy import stats
+import statsmodels.api as sm
+from statsmodels.stats.stattools import jarque_bera
 from sklearn.model_selection import train_test_split
-from arch.__future__ import reindexing
 from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
 import plotly.express as px
 import yfinance as yf
@@ -16,6 +21,7 @@ from PIL import Image
 from plotly.tools import mpl_to_plotly
 yf.pdr_override()
 np.random.seed(42)
+
 
 
 
