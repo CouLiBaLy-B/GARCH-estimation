@@ -77,7 +77,7 @@ def compagny():
              'Safran SA',
              'Sanofi',
              'Schneider Electric SE',
-             'Societe Generale S.A.'), key = f'{np.random.rand()})
+             'Societe Generale S.A.'), key = f'{np.random.rand()}')
     return ticker
 
 d = date()
