@@ -55,7 +55,7 @@ $$
 $$
 """)
 
-"# Simumlated Garch data"
+"# Simumlation des données Garch"
 # create dataset
 
 " Paramètres du modéle"
