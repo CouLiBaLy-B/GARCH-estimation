@@ -382,10 +382,9 @@ plt.show()
 
 "### GARCH(1, 1) - avec la librarie arch"
 
-series = data.values
+
 X_train, X_test = train_test_split(data, test_size = 0.2, shuffle= False)
 
-series = data.values
 #train, test = series[:-test_size], series[-test_size:]
 train, test = X_train.values, X_test.values
 p, q = 1, 1
