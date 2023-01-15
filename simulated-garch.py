@@ -18,11 +18,17 @@ yf.pdr_override()
 np.random.seed(42)
 
 "#  Projet Garch"
-"### Auteurs:"
-"## Ahmed OSMAN"
-"## Ibrahim COULIBALY"
+"#### Auteurs:"
+"### Ahmed OSMAN"
+"### Ibrahim COULIBALY"
 
-"### Université Paris Saclay"
+"#### Université Paris Saclay"
+
+"""# Introduction
+Le modèle GARCH (Generalized Autoregressive Conditional Heteroskedasticity) est un modèle statistique utilisé pour décrire la volatilité d'un actif financier. 
+Il permet de prédire la volatilité future en utilisant des données historiques sur la volatilité passée de l'actif. 
+Ce modèle est souvent utilisé pour la prévision de la volatilité dans les marchés financiers et est particulièrement utile pour les investisseurs qui cherchent à gérer le risque de leur portefeuille.
+"""
 
 "# Modèle GARCH(1,1)"
 st.write(r"""
