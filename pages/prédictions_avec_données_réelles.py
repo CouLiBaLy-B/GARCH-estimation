@@ -201,6 +201,8 @@ ax.plot(Data, color="red")
 fig2 = mpl_to_plotly(fig)
 fig2
 plt.show()
+
+
 r"""
 ## Calibrer un modèle GARCH(1, 1) avec EMV
 
@@ -378,8 +380,7 @@ plt.show()
 
 
 
-
-"###  Calibrage et apprentissage du modèle - GARCH(1, 1)"
+"### GARCH(1, 1) - avec la library arch"
 
 series = data.values
 X_train, X_test = train_test_split(data, test_size = 0.2, shuffle= False)
