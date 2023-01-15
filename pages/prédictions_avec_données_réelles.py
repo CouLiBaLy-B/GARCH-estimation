@@ -398,15 +398,6 @@ model_fit = model.fit()
 st.write("**Summary**")
 st.write(model_fit.summary())
 
-'## Le log returns '
-
-fig, ax= plt.subplots()
-ax.plot(returns, color="red")
-fig2 = mpl_to_plotly(fig)
-fig2
-plt.show()
-
-##
 
 
 "## Prédictions roulantes"
