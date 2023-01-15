@@ -19,7 +19,6 @@ yf.pdr_override()
 np.random.seed(42)
 
 "#  Projet Garch"
-"#### Auteurs:"
 st.sidebar.write("Ahmed OSMAN")
 st.sidebar.write("Ibrahim COULIBALY")
 
