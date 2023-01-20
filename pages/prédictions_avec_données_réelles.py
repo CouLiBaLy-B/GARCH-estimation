@@ -353,6 +353,26 @@ with col4 :
     beta_estimate = theta_mle[2]
     beta_estimate
 
+    
+    "## A une horizon donnée "
+"En utilisant la formule suivante :"
+r"""$$
+\begin{aligned}
+E\left(\epsilon_{t+h}^2 \mid \mathcal{F}_t\right) & =E\left(\sigma_{t+h}^2 \mid \mathcal{F}_t\right) \\
+& =\frac{\omega}{1-(\alpha+\beta)}\left(1-(\alpha+\beta)^{h-1}\right)+(\alpha+\beta)^{h-1} \sigma_{t+1}^2 .
+\end{aligned}
+$$"""
+"On obtient, "
+
+def ho():
+    h = st.number_input("Horizon de prédiction " , min_value= 1, max_value= 1000, value=100, key = "10")
+    return h
+
+k = ho()
+gg = alpha_estimate+beta_estimate
+f"la volatilité a la date t + {k} est ", (omega_estimate) * (1 - gg**(k-1)) /(1- gg) + gg**(k-1)*sigma_2[-1]
+
+
 def horizon():
     hor = st.number_input("Horizon de prédiction " , min_value= 1, max_value= 1000, value=100)
     return hor
@@ -374,23 +394,6 @@ fig2
 plt.show()
 
 
-"## A une horizon donnée "
-"En utilisant la formule suivante :"
-r"""$$
-\begin{aligned}
-E\left(\epsilon_{t+h}^2 \mid \mathcal{F}_t\right) & =E\left(\sigma_{t+h}^2 \mid \mathcal{F}_t\right) \\
-& =\frac{\omega}{1-(\alpha+\beta)}\left(1-(\alpha+\beta)^{h-1}\right)+(\alpha+\beta)^{h-1} \sigma_{t+1}^2 .
-\end{aligned}
-$$"""
-"On obtient, "
-
-def ho():
-    h = st.number_input("Horizon de prédiction " , min_value= 1, max_value= 1000, value=100, key = "10")
-    return h
-
-k = ho()
-gg = alpha_estimate+beta_estimate
-f"la volatilité a la date t + {k} est ", (omega_estimate) * (1 - gg**(k-1)) /(1- gg) + gg**(k-1)*sigma_2[-1]
 
 
 
