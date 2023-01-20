@@ -374,6 +374,9 @@ fig2
 plt.show()
 
 
+"## A une horizon donnée "
+
+
 def ho():
     h = st.number_input("Horizon de prédiction " , min_value= 1, max_value= 1000, value=100, key = "10")
     return h
