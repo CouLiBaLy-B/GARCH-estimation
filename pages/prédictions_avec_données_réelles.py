@@ -375,7 +375,14 @@ plt.show()
 
 
 "## A une horizon donnée "
-
+"En utilisant la formule suivante :"
+r"""$$
+\begin{aligned}
+E\left(\epsilon_{t+h}^2 \mid \mathcal{F}_t\right) & =E\left(\sigma_{t+h}^2 \mid \mathcal{F}_t\right) \\
+& =\frac{\omega}{1-(\alpha+\beta)}\left(1-(\alpha+\beta)^{h-1}\right)+(\alpha+\beta)^{h-1} \sigma_{t+1}^2 .
+\end{aligned}
+$$"""
+"On obtient, "
 
 def ho():
     h = st.number_input("Horizon de prédiction " , min_value= 1, max_value= 1000, value=100, key = "10")
