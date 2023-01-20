@@ -380,7 +380,7 @@ def ho():
 
 h = ho()
 d = alpha_estimate+beta_estimate
-st.write(f'la volatilité a la date t+ {h} est ', (omega_estimate) * (1 - d**(h-1)) /(1- d) + d**(h-1)*sigma_2[-1]))
+st.write(f'la volatilité a la date t+ {h} est ', (omega_estimate) * (1 - d**(h-1)) /(1- d) + d**(h-1)*sigma_2[-1])
 
 
 
