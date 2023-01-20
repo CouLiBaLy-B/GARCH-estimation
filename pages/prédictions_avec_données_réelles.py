@@ -375,12 +375,12 @@ plt.show()
 
 
 def ho():
-    h = st.number_input("Horizon de prédiction " , min_value= 1, max_value= 1000, value=100)
+    h = st.number_input("Horizon de prédiction " , min_value= 1, max_value= 1000, value=100, key = "10")
     return h
 
 h = ho()
 d = alpha_estimate+beta_estimate
-st.write(f'la volatilité a la date t+ {h} est ', (omega_estimate) * (1 - d**(h-1)) /(1- d) + d**(h-1)*sigma_2[-1])
+f"la volatilité a la date t+ {h} est ", (omega_estimate) * (1 - d**(h-1)) /(1- d) + d**(h-1)*sigma_2[-1]
 
 
 
