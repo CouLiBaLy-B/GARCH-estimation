@@ -379,9 +379,19 @@ def horizon():
 
 horizon  = horizon()
 horizon = int(horizon)
-X_forecast, sigma_forecast = GARCH(horizon, omega_estimate, alpha_estimate, beta_estimate, initial_sigma)
+#X_forecast, sigma_forecast = GARCH(horizon, omega_estimate, alpha_estimate, beta_estimate, initial_sigma)
 #X_forecast
-
+sigma_forecast =[]
+for i in range(-horizon, -1,1):
+    sum = 0
+    for j in range(len(series[:i]):
+        sum+=beta_estimate**(j-1) *(omega_estimate + alpha_estimate*series[len(series[:-i])-j]
+    sigma_forecast.append(sum)
+    
+sigma_forecast
+    
+    
+    
 fig, ax = plt.subplots()
 ax.plot(Data.index[-100:], series[-100:], 'b-')
 ax.plot(Data.index[-100:], sigma_2[-100:], 'r-')
