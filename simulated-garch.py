@@ -76,7 +76,7 @@ omega, alpha_1, beta_1 = parametre()
 
 n = 1000
 @st.experimental_memo
-def serie(n):
+def serie(n, omega, alpha_1, beta_1):
     series = [gauss(0, 1), gauss(0, 1)]
     vols = [1, 1]
     for _ in range(n):
@@ -91,7 +91,7 @@ def serie(n):
         series.append(new_val)
     return vols, series
 
-vols, series = serie(n)
+vols, series = serie(n, omega, alpha_1, beta_1)
 
 "$a_0$ = ", series[0] ,"$ \sim \mathcal{N}(0, 1)$"
 "$a_1$ = ",series[1] ,"$\sim \mathcal{N}(0, 1)$"
