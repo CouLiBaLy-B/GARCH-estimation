@@ -382,24 +382,27 @@ horizon = int(horizon)
 #X_forecast, sigma_forecast = GARCH(horizon, omega_estimate, alpha_estimate, beta_estimate, initial_sigma)
 #X_forecast
 
-sigma_forecast =[]
-for i in range(-horizon, -1,1):
-    sum = 0
-    for j in range(len(series[:i])):
-        sum+=beta_estimate**(j-1) *(omega_estimate + alpha_estimate*series[len(series[:-i])-j])
-    sigma_forecast.append(sum[0])
+def prediction(series = series, horizon = horizon):
+    sigma_forecast =[]
+    for i in range(-horizon, -1,1):
+        sum = 0
+        for j in range(len(series[:i])):
+            sum+=beta_estimate**(j-1) *(omega_estimate + alpha_estimate*series[len(series[:-i])-j])
+        sigma_forecast.append(sum[0])
+    return sigma_forecast
     
+   
+sigma_forecast = prediction()
+
 sigma_forecast
-    
-    
-    
+
 fig, ax = plt.subplots()
 ax.plot(Data.index[-100:], series[-100:], 'b-')
-ax.plot(Data.index[-100:], sigma_2[-100:], 'r-')
+#ax.plot(Data.index[-100:], sigma_2[-100:], 'r-')
 #ax.plot([Data.index[-1] + relativedelta(days=i) for i in range(0, horizon)], X_forecast, 'b--')
 ax.plot([Data.index[-1] + relativedelta(days=i) for i in range(0, horizon)], sigma_forecast, 'r--')
 plt.xlabel('Time')
-plt.legend(['Log-return', 'sigma', "pred-sigma"])
+#plt.legend(['Log-return', 'sigma', "pred-sigma"])
 fig2 = mpl_to_plotly(fig)
 fig2
 plt.show()
