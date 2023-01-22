@@ -512,15 +512,16 @@ def prediction_sigma_2(sigma_2 = sigma_2 , horizon = horizon, alpha_estimate = a
     return pred
 
 sigma_forecast = prediction_sigma_2()
-sigma_forecastC = prediction_sigma_2(alpha_estimate = alpha_estimateC , beta_estimate = beta_estimateC, omega_estimate = omega_estimateC)
-
+sigma_forecast
+sigma_forecastC = prediction_sigma_2(sigma_2 = sigma_2C ,alpha_estimate = alpha_estimateC , beta_estimate = beta_estimateC, omega_estimate = omega_estimateC)
+sigma_forecastC
 fig, ax = plt.subplots()
 ax.plot(data.index[-horizon:], series[-horizon:], 'b-')
 ax.plot(data.index[-horizon:], sigma_2[-horizon:], 'r-')
-ax.plot([data.index[-1] + relativedelta(days=i) for i in range(0, horizon)], sigma_forecast, 'r--')
+ax.plot([data.index[-1] + relativedelta(days=i) for i in range(1, horizon+1)], sigma_forecast, 'r--')
 ax.plot(data.index[-horizon:], seriesC[-horison:], 'b-')
 ax.plot(data.index[-horizon:], sigma_2C[-horizon:], 'r-')
-ax.plot([data.index[-1] + relativedelta(days=i) for i in range(0, horizon)], sigma_forecastC, 'y--')
+ax.plot([data.index[-1] + relativedelta(days=i) for i in range(1, horizon+1)], sigma_forecastC, 'y--')
 plt.xlabel('Time')
 plt.legend([f'Log-return {Ticker} ', f'sigma {Ticker}',  f"pred-sigma {Ticker}", f'Log-return {Ticke}', f'sigma {Ticke}', f"pred-sigma {Ticke}"])
 fig2 = mpl_to_plotly(fig)
