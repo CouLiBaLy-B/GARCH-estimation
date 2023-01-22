@@ -386,7 +386,7 @@ for i in range(-horizon, -1,1):
     sum = 0
     for j in range(len(series[:i])):
         sum+=beta_estimate**(j-1) *(omega_estimate + alpha_estimate*series[len(series[:-i])-j])
-    sigma_forecast.append(sum)
+    sigma_forecast.append(sum[0])
     
 sigma_forecast
     
