@@ -397,7 +397,7 @@ def prediction(series = series, horizon = horizon, L = 100, alpha_estimate = alp
     return sigma_forecast
     
    
-sigma_forecast = prediction(horizon = horizon)
+sigma_forecast = prediction(horizon = horizon, series = sigma_2)
 
 sigma_forecast
 
