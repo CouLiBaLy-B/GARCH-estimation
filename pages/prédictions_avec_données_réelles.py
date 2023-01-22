@@ -507,14 +507,12 @@ with col4 :
 def prediction_sigma_2(sigma_2 = sigma_2 , horizon = horizon, alpha_estimate = alpha_estimate , beta_estimate = beta_estimate, omega_estimate = omega_estimate):
     pred  = []
     gg = alpha_estimate + beta_estimate
-    for k in range(1,horizon):
+    for k in range(1,horizon+1):
         pred.append((omega_estimate) * (1 - gg**(k-1)) /(1- gg) + gg**(k-1)*sigma_2[-1])
     return pred
 
 sigma_forecast = prediction_sigma_2()
-sigma_forecast
 sigma_forecastC = prediction_sigma_2(sigma_2 = sigma_2C ,alpha_estimate = alpha_estimateC , beta_estimate = beta_estimateC, omega_estimate = omega_estimateC)
-sigma_forecastC
 fig, ax = plt.subplots()
 ax.plot(data.index[-horizon:], series[-horizon:], 'b-')
 ax.plot(data.index[-horizon:], sigma_2[-horizon:], 'r-')
