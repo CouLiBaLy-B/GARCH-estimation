@@ -389,7 +389,7 @@ def prediction(series = series, horizon = horizon, L = 50):
         sum = 0
         Serie = series[i-L:i]
         for j in range(1,L+1):
-            sum += beta_estimate**(j-1) *(omega_estimate + alpha_estimate * Series[L-j])
+            sum += beta_estimate**(j-1) *(omega_estimate + alpha_estimate * Series[L-j-1])
         sigma_forecast.append(sum[0])
     return sigma_forecast
     
