@@ -449,7 +449,7 @@ for i in range(test_size):
 
 
 rolling  = pd.DataFrame(rolling_predictions, columns= ["pred"], index= returns[-test_size:].index)
-rolling["test"] = returns[-test_size:]
+rolling["log return"] = returns[-test_size:]
 rolling
 fig, ax = plt.subplots()
 fig = px.line(rolling,x = rolling.index, y = ["pred","log return"],
