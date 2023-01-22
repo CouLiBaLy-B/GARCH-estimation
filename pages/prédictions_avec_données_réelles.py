@@ -512,7 +512,7 @@ def prediction_sigma_2(sigma_2 = sigma_2 , horizon = horizon, alpha_estimate = a
     return pred
 
 sigma_forecast = prediction_sigma_2()
-sigma_forecast = prediction_sigma_2(alpha_estimate = alpha_estimateC , beta_estimate = beta_estimateC, omega_estimate = omega_estimateC)
+sigma_forecastC = prediction_sigma_2(alpha_estimate = alpha_estimateC , beta_estimate = beta_estimateC, omega_estimate = omega_estimateC)
 
 fig, ax = plt.subplots()
 ax.plot(data.index[-horizon:], series[-horizon:], 'b-')
