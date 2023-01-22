@@ -381,15 +381,15 @@ horizon  = horizon()
 horizon = int(horizon)
 #X_forecast, sigma_forecast = GARCH(horizon, omega_estimate, alpha_estimate, beta_estimate, initial_sigma)
 #X_forecast
-nn = series[-30:-10]
-nn
+
+
 def prediction(series = series, horizon = horizon, L = 50):
     sigma_forecast =[]
     for i in range(-horizon, -1,1):
         sum = 0
         Serie = series[i-L:i]
-        for j in range(L):
-            sum += beta_estimate ** (j-1) *(omega_estimate + alpha_estimate * Series[L-j])
+        for j in range(1,L+1):
+            sum += beta_estimate**(j-1) *(omega_estimate + alpha_estimate * Series[L-j])
         sigma_forecast.append(sum[0])
     return sigma_forecast
     
