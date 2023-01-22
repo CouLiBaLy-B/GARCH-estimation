@@ -392,7 +392,7 @@ def sum_beta_omega_theta(L, alpha_estimate ,beta_estimate, omega_estimate, serie
 def prediction(series = series, horizon = horizon, L = 10, alpha_estimate = alpha_estimate , beta_estimate = beta_estimate, omega_estimate = omega_estimate):
     sigma_forecast =[]
     for i in range(-horizon, 0,1):
-        result = sum_beta_omega_theta(L, alpha_estimate , beta_estimate, omega_estimate, series, i)
+        result = sum_beta_omega_theta(L, alpha_estimate , beta_estimate, omega_estimate, series, i-horizon)
         sigma_forecast.append(result[0])
     return sigma_forecast
     
@@ -405,7 +405,7 @@ fig, ax = plt.subplots()
 #ax.plot(range(horizon), series[-horizon:], 'b-')
 ax.plot(Data.index[-horizon:], sigma_2[-horizon:], 'r-')
 #ax.plot([Data.index[-1] + relativedelta(days=i) for i in range(0, horizon)], X_forecast, 'b--')
-ax.plot([Data.index[-1] + relativedelta(days=i) for i in range(0, horizon)], sigma_forecast, 'r--')
+ax.plot(Data.index[-horizon:], sigma_forecast, 'r--')
 #plt.xlabel('Time')
 #plt.legend(['Log-return', 'sigma', "pred-sigma"])
 fig2 = mpl_to_plotly(fig)
