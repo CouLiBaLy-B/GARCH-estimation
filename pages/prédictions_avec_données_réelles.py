@@ -404,7 +404,7 @@ sigma_forecast
 fig, ax = plt.subplots()
 ax.plot(Data.index[-horizon:], series[-horizon:], 'b-')
 ax.plot(Data.index[-horizon:], sigma_2[-horizon:], 'r-')
-ax.plot(Data.index[-horizon:], sigma_forecast, 'b--')
+ax.plot(Data.index[-horizon:], sigma_forecast, 'r--')
 plt.xlabel('Time')
 plt.legend(['Log return', 'sigma', "pred sigma"])
 fig2 = mpl_to_plotly(fig)
