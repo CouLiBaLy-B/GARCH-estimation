@@ -396,16 +396,16 @@ sigma_forecast = prediction()
 
 sigma_forecast
 
-fig, ax = plt.subplots()
+#fig, ax = plt.subplots()
 #ax.plot(range(horizon), series[-horizon:], 'b-')
 #ax.plot(Data.index[-horizon:], sigma_2[-100:], 'r-')
 #ax.plot([Data.index[-1] + relativedelta(days=i) for i in range(0, horizon)], X_forecast, 'b--')
-ax.plot(range(horizon), sigma_forecast, 'r--')
-plt.xlabel('Time')
+#ax.plot(range(horizon), sigma_forecast, 'r--')
+#plt.xlabel('Time')
 #plt.legend(['Log-return', 'sigma', "pred-sigma"])
-fig2 = mpl_to_plotly(fig)
-fig2
-plt.show()
+#fig2 = mpl_to_plotly(fig)
+#fig2
+#plt.show()
 
 
 
