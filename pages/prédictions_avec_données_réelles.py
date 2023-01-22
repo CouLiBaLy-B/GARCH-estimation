@@ -381,7 +381,8 @@ horizon  = horizon()
 horizon = int(horizon)
 #X_forecast, sigma_forecast = GARCH(horizon, omega_estimate, alpha_estimate, beta_estimate, initial_sigma)
 #X_forecast
-
+nn = series[-30:-10]
+nn
 def prediction(series = series, horizon = horizon, L = 50):
     sigma_forecast =[]
     for i in range(-horizon, -1,1):
