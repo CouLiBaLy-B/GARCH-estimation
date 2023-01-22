@@ -397,17 +397,16 @@ def prediction(series = series, horizon = horizon, L = 100, alpha_estimate = alp
     return sigma_forecast
     
    
-sigma_forecast = prediction(horizon = horizon, series = sigma_2)
+sigma_forecast = prediction(horizon = horizon)
 
 sigma_forecast
 
 fig, ax = plt.subplots()
 ax.plot(Data.index[-horizon:], series[-horizon:], 'b-')
 ax.plot(Data.index[-horizon:], sigma_2[-horizon:], 'r-')
-#ax.plot([Data.index[-1] + relativedelta(days=i) for i in range(0, horizon)], X_forecast, 'b--')
 ax.plot(Data.index[-horizon:], sigma_forecast, 'b--')
 plt.xlabel('Time')
-plt.legend(['Log-return', 'sigma', "pred-sigma"])
+plt.legend(['Log return', 'sigma', "pred sigma"])
 fig2 = mpl_to_plotly(fig)
 fig2
 plt.show()
