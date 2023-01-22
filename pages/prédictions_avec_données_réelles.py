@@ -467,7 +467,7 @@ def Data(Ticker , d ):
     data = pdr.get_data_yahoo("{}".format(Ticker), start=d[1], end=d[2])
     return data
 
-comp = compagny(1)
+comp = compagny(28)
 Ticke = tickers(comp)
 dataC = Data(Ticker = Ticke, d = d)
 dataC = dataC.filter([g])
