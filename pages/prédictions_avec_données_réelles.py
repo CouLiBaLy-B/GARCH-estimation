@@ -483,6 +483,7 @@ resultC = scipy.optimize.minimize(objective, (1.0, .1, 0.1),
 theta_mleC = resultC.x
 
 sigma_2C = compute_squared_sigmas(seriesC, np.sqrt(np.mean(seriesC ** 2)), theta_mleC )
+sigma_2C
 col1, col2, col3, col4 = st.columns(4)
 with col1 :
     initial_sigmaC = sigma_2C[-1]
