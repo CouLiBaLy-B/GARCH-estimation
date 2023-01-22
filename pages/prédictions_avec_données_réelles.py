@@ -450,7 +450,7 @@ for i in range(test_size):
 
 rolling  = pd.DataFrame(rolling_predictions, columns= ["pred"], index= returns[-test_size:].index)
 rolling["test"] = returns[-test_size:]
-
+rolling
 fig, ax = plt.subplots()
 fig = px.line(rolling,x = rolling.index, y = ["pred","log return"],
               title = "La variation des differentes sorties"
@@ -506,7 +506,7 @@ with col4 :
 
 def prediction_sigma(sigma_2 = sigma_2 , horizon = horizon, alpha_estimate = alpha_estimate , beta_estimate = beta_estimate, omega_estimate = omega_estimate):
     pred  = []
-    gg = alpha_estimate+beta_estimate
+    gg = alpha_estimate + beta_estimate
     for k in range(1,horizon):
         pred.append((omega_estimate) * (1 - gg**(k-1)) /(1- gg) + gg**(k-1)*sigma_2[-1])
     return pred
