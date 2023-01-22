@@ -509,7 +509,7 @@ def prediction_sigma(sigma_2 = sigma_2 , horizon = horizon, alpha_estimate = alp
     gg = alpha_estimate+beta_estimate
     for k in range(1,horizon):
         pred.append((omega_estimate) * (1 - gg**(k-1)) /(1- gg) + gg**(k-1)*sigma_2[-1])
-    return k
+    return pred
 
 sigma_forecast = prediction_sigma_2()
 sigma_forecast = prediction_sigma_2(alpha_estimate = alpha_estimateC , beta_estimate = beta_estimateC, omega_estimate = omega_estimateC)
