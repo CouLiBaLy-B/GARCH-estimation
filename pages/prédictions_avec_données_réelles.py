@@ -46,7 +46,7 @@ def date():
         SixAgo = start + relativedelta(months=-6)
     return [SixAgo.strftime("%Y-%m-%d"), start.strftime("%Y-%m-%d"), end.strftime("%Y-%m-%d")]
 
-def compagny():
+def compagny(n):
     ticker = st.selectbox(
              'Lequel voulez vous selectionner ?', ('CAC40','Apple','Accor',
              'Airbus SE',
@@ -77,11 +77,11 @@ def compagny():
              'Safran SA',
              'Sanofi',
              'Schneider Electric SE',
-             'Societe Generale S.A.'), key = f'{np.random.rand()}')
+             'Societe Generale S.A.'), key = f'{n}')
     return ticker
 
 d = date()
-comp = compagny()
+comp = compagny(10)
 
 def tickers(a):
     d = ["^FCHI","AAPL",'AC.PA',
@@ -467,7 +467,7 @@ def Data(Ticker , d ):
     data = pdr.get_data_yahoo("{}".format(Ticker), start=d[1], end=d[2])
     return data
 
-comp = compagny()
+comp = compagny(1)
 Ticke = tickers(comp)
 dataC = Data(Ticker = Ticke, d = d)
 dataC = dataC.filter([g])
