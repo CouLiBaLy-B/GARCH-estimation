@@ -452,7 +452,7 @@ rolling  = pd.DataFrame(rolling_predictions, columns= ["pred"], index= returns[-
 rolling["test"] = returns[-test_size:]
 
 fig, ax = plt.subplots()
-fig = px.line(rolling,x = rolling.index, y = ["pred","test"],
+fig = px.line(rolling,x = rolling.index, y = ["pred","log return"],
               title = "La variation des differentes sorties"
               )
 fig
@@ -503,20 +503,26 @@ with col4 :
 
 # Prediction et representation graphique
 
-X_forecastC, sigma_forecastC = GARCH(horizon, omega_estimateC, alpha_estimateC, beta_estimateC, initial_sigmaC)
 
+def prediction_sigma(sigma_2 = sigma_2 , horizon = horizon, alpha_estimate = alpha_estimate , beta_estimate = beta_estimate, omega_estimate = omega_estimate):
+    pred  = []
+    gg = alpha_estimate+beta_estimate
+    for k in range(1,horizon):
+        pred.append((omega_estimate) * (1 - gg**(k-1)) /(1- gg) + gg**(k-1)*sigma_2[-1])
+    return k
+
+sigma_forecast = prediction_sigma_2()
+sigma_forecast = prediction_sigma_2(alpha_estimate = alpha_estimateC , beta_estimate = beta_estimateC, omega_estimate = omega_estimateC)
 
 fig, ax = plt.subplots()
-ax.plot(data.index[-100:], series[-100:], 'b-')
-ax.plot(data.index[-100:], sigma_2[-100:], 'r-')
-ax.plot([data.index[-1] + relativedelta(days=i) for i in range(0, horizon)], X_forecast, 'b--')
+ax.plot(data.index[-horizon:], series[-100:], 'b-')
+ax.plot(data.index[-horizon:], sigma_2[-100:], 'r-')
 ax.plot([data.index[-1] + relativedelta(days=i) for i in range(0, horizon)], sigma_forecast, 'r--')
 ax.plot(data.index[-100:], seriesC[-100:], 'b-')
 ax.plot(data.index[-100:], sigma_2C[-100:], 'r-')
-ax.plot([data.index[-1] + relativedelta(days=i) for i in range(0, horizon)], X_forecastC, 'g--')
 ax.plot([data.index[-1] + relativedelta(days=i) for i in range(0, horizon)], sigma_forecastC, 'y--')
 plt.xlabel('Time')
-plt.legend([f'Log-return {Ticker} ', f'sigma {Ticker}', f"pred log-return {Ticker}", f"pred-sigma {Ticker}", f'Log-return {Ticke}', f'sigma {Ticke}', f"pred log-return {Ticke}", f"pred-sigma {Ticke}"])
+plt.legend([f'Log-return {Ticker} ', f'sigma {Ticker}',  f"pred-sigma {Ticker}", f'Log-return {Ticke}', f'sigma {Ticke}', f"pred-sigma {Ticke}"])
 fig2 = mpl_to_plotly(fig)
 fig2
 plt.show()
