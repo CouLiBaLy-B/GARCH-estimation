@@ -365,7 +365,7 @@ $$"""
 "On obtient, "
 
 def ho():
-    h = st.number_input("Horizon de prédiction " , min_value= 1, max_value= 1000, value=100, key = "10")
+    h = st.number_input("Horizon de prédiction " , min_value= 1, max_value= 1000, value=100, key = "30")
     return h
 
 k = ho()
@@ -374,7 +374,7 @@ f"la volatilité a la date t + {k} est ", (omega_estimate) * (1 - gg**(k-1)) /(1
 
 
 def horizon():
-    hor = st.number_input("Horizon de prédiction " , min_value= 1, max_value= 1000, value=100)
+    hor = st.number_input("Horizon de prédiction " , min_value= 1, max_value= 1000, value=100, key = "ho")
     return hor
 
 horizon  = horizon()
