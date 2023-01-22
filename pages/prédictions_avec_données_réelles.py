@@ -391,13 +391,13 @@ def sum_beta_omega_theta(L, alpha_estimate ,beta_estimate, omega_estimate, serie
 
 def prediction(series = series, horizon = horizon, L = 10, alpha_estimate = alpha_estimate , beta_estimate = beta_estimate, omega_estimate = omega_estimate):
     sigma_forecast =[]
-    for i in range(-horizon, -1,1):
+    for i in range(-horizon, 0,1):
         result = sum_beta_omega_theta(L, alpha_estimate , beta_estimate, omega_estimate, series, i)
         sigma_forecast.append(result[0])
     return sigma_forecast
     
    
-sigma_forecast = prediction()
+sigma_forecast = prediction(horizon = horizon)
 
 sigma_forecast
 
